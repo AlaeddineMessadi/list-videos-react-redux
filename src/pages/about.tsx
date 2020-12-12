@@ -2,10 +2,10 @@ import React from 'react';
 import { Container, Grid } from '@material-ui/core';
 
 interface AboutPageProps {
-  page?: string;
+  content?: JSX.Element;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = () => {
+export const AboutPage: React.FC<AboutPageProps> = ({ content }) => {
   return (
     <Container>
       <Grid container spacing={3} alignItems="flex-end">
