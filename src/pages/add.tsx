@@ -39,9 +39,15 @@ const useStyles = makeStyles((theme) => ({
 export const AddPage: React.FC = () => {
   const classes = useStyles();
 
+  /**
+   * Categories and Authors Hooks initialization
+   */
   const [categories, setCategories]: [Category[], (categories: Category[]) => void] = React.useState<Category[]>([]);
   const [authors, setAuthors]: [Author[], (loading: Author[]) => void] = React.useState<Author[]>([]);
 
+  /**
+   * Fetch data: categories and authors
+   */
   React.useEffect(() => {
     getCategories().then((value) => {
       setCategories(value);

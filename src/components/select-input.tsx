@@ -1,13 +1,6 @@
 import React from 'react';
-import { Container, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
-import { MultipleSelector } from '../components/multiple-selector';
+import { InputLabel, Select } from '@material-ui/core';
 import { Author } from '../common/interfaces';
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: '100%',
-  },
-}));
 
 interface SelectInputProps {
   authors: Author[];
@@ -17,7 +10,6 @@ interface SelectInputProps {
 }
 
 export const SelectInputElm: React.FC<SelectInputProps> = ({ authors, value, label }) => {
-  const classes = useStyles();
   const selectId: string = `${label?.toLowerCase()}-select`;
 
   const [author, setAuthor] = React.useState<Author>({} as Author);
