@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list';
 import { AboutPage } from '../pages/about';
 import { FAQPage } from '../pages/faq';
 import { HeaderMenu } from '../components/header-menu';
+import { EditPage } from '../pages/edit';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ page }) => {
           <Switch>
             <Route path="/about" component={AboutPage} />
             <Route path="/faq" component={FAQPage} />
+            <Route path="/video/:id" component={EditPage} />
             <Route path="/" component={ListPage} />
           </Switch>
         </Container>
