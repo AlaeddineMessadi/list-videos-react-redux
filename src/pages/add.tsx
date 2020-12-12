@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
+import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
 
 import { getCategories } from '../services/categories';
 import { Author, Category } from '../common/interfaces';
@@ -42,21 +42,17 @@ export const AddPage: React.FC = () => {
   /**
    * Categories and Authors Hooks initialization
    */
+  const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
   const [categories, setCategories]: [Category[], (categories: Category[]) => void] = React.useState<Category[]>([]);
   const [authors, setAuthors]: [Author[], (loading: Author[]) => void] = React.useState<Author[]>([]);
 
   /**
-   * Fetch data: categories and authors
+   * Form Input videoName ChangeHandler
    */
-  React.useEffect(() => {
-    getCategories().then((value) => {
-      setCategories(value);
-    });
-
-    getAuthors().then((value) => {
-      setAuthors(value);
-    });
-  }, []);
+  const videoNameChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const vidName: string = event.target.value as string;
+    setVideoName(vidName);
+  };
 
   /**
    * Form Input Author Hooks and ChangeHandler
@@ -86,6 +82,19 @@ export const AddPage: React.FC = () => {
     setCategory(value);
   };
 
+  /**
+   * Fetch data: categories and authors
+   */
+  React.useEffect(() => {
+    getCategories().then((value) => {
+      setCategories(value);
+    });
+
+    getAuthors().then((value) => {
+      setAuthors(value);
+    });
+  }, []);
+
   return (
     <Container className={classes.root}>
       <Divider className={classes.divider} />
@@ -98,7 +107,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <TextField fullWidth label="Video name" variant="outlined" />
+            <TextField fullWidth label="Video name" variant="outlined" value={videoName} onChange={videoNameChangeHandler} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
@@ -106,7 +115,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm options={authors} changeHandler={authorChangeHandler} />
+            <SelectInputElm options={authors} value={author} changeHandler={authorChangeHandler} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
@@ -131,6 +140,14 @@ export const AddPage: React.FC = () => {
               </Button>
             </div>
           </FormControlElm>
+        </Grid>
+        <Grid item xs={12} sm={8}>
+          <div>
+            <h4>State:</h4>
+            <p>Video Name: {videoName}</p>
+            <p>Author: {author.name}</p>
+            <p>categories: {categoryName.toString()}</p>
+          </div>
         </Grid>
       </Grid>
     </Container>
