@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
 
 import { getCategories } from '../services/categories';
-import { Author, Category } from '../common/interfaces';
+import { Author, Category, Video } from '../common/interfaces';
 import { getAuthors } from '../services/authors';
 import { Link } from 'react-router-dom';
 import { FormControlElm } from '../components/form-control';
@@ -67,19 +67,36 @@ export const AddPage: React.FC = () => {
   /**
    * Form Input Category Hooks and ChangeHandler
    */
-  const [categoryName, setCategory] = React.useState<string[]>([]);
+  const [categoryName, setCategory] = React.useState<Category[]>([]);
   const categoryChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const { options } = event.target as HTMLSelectElement;
-    const value: string[] = [];
+    const value: Category[] = [];
 
     Object.entries(options).map((element, i) => {
       const option = element[1];
       if (option.selected) {
-        value.push(option.value);
+        const selectedId: number = parseInt(option.value);
+        value.push(categories[categories.findIndex((cat: Category) => cat.id === selectedId)]);
       }
     });
 
     setCategory(value);
+  };
+
+  /**
+   * On form submit Handler
+   */
+  const onSubmit = () => {
+    let video: Video = {
+      id: Math.floor(Math.random() * 100),
+      name: videoName,
+      catIds: categories.map((cat) => cat.id),
+    };
+    let authorClone = author;
+    author.videos.push(video);
+    console.log(videoName);
+    console.log(author);
+    console.log(categories);
   };
 
   /**
@@ -130,7 +147,7 @@ export const AddPage: React.FC = () => {
         <Grid item xs={12} sm={8}>
           <FormControlElm>
             <div className={classes.btnContainer}>
-              <Button variant="contained" size="medium" color="primary" className={classes.btnMargin}>
+              <Button variant="contained" size="medium" color="primary" className={classes.btnMargin} onClick={() => onSubmit()}>
                 Submit
               </Button>
               <Button variant="contained" size="medium" color="secondary" className={classes.btnMargin}>
