@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, Container, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
-import { MultipleSelector } from '../components/multiple-selector';
-import { FormControlElm } from '../components/form-control';
-import { SelectInputElm } from '../components/select-input';
+
 import { getCategories } from '../services/categories';
 import { Author, Category } from '../common/interfaces';
 import { getAuthors } from '../services/authors';
