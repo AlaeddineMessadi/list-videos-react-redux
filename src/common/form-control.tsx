@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Divider, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField } from '@material-ui/core';
-import { MultipleSelector } from '../components/multiple-selector';
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
