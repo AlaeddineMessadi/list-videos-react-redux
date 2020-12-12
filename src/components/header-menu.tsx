@@ -57,11 +57,12 @@ export const HeaderMenu: React.FC<{}> = (props) => {
             FAQ
           </Link>
         </Typography>
-        <Button variant="contained" color="primary">
-          <Link to="/video/add" className={classes.link}>
+
+        <Link to="/video/add" className={classes.link}>
+          <Button variant="contained" color="primary">
             Add Video
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </Toolbar>
     </AppBar>
   );
