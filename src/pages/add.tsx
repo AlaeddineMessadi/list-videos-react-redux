@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
+import { parseCategoryIds } from '../utils/helpers';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -67,7 +68,7 @@ export const AddPage: React.FC = () => {
   /**
    * Form Input Category Hooks and ChangeHandler
    */
-  const [categoryName, setCategory] = React.useState<Category[]>([]);
+  const [categoryNames, setCategory] = React.useState<Category[]>([]);
   const categoryChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const { options } = event.target as HTMLSelectElement;
     const value: Category[] = [];
@@ -90,13 +91,13 @@ export const AddPage: React.FC = () => {
     let video: Video = {
       id: Math.floor(Math.random() * 100),
       name: videoName,
-      catIds: categories.map((cat) => cat.id),
+      catIds: parseCategoryIds(categoryNames),
     };
     let authorClone = author;
     author.videos.push(video);
     console.log(videoName);
     console.log(author);
-    console.log(categories);
+    console.log(categoryNames);
   };
 
   /**
@@ -140,7 +141,12 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <MultipleSelector label="Category" categories={categories} value={categoryName} changeHandler={categoryChangeHandler} />
+            <MultipleSelector
+              label="Category"
+              categories={categories}
+              value={parseCategoryIds(categoryNames)}
+              changeHandler={categoryChangeHandler}
+            />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label} />
@@ -157,14 +163,6 @@ export const AddPage: React.FC = () => {
               </Button>
             </div>
           </FormControlElm>
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          <div>
-            <h4>State:</h4>
-            <p>Video Name: {videoName}</p>
-            <p>Author: {author.name}</p>
-            <p>categories: {categoryName.toString()}</p>
-          </div>
         </Grid>
       </Grid>
     </Container>

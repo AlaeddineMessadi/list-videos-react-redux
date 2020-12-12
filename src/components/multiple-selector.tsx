@@ -4,7 +4,7 @@ import { Category } from '../common/interfaces';
 
 interface MultipleSelectorProps {
   categories: Category[];
-  value: Category[];
+  value: number[];
   label: string;
   changeHandler?: (event: React.ChangeEvent<{ value: unknown }>) => void;
 }
