@@ -7,15 +7,17 @@ interface SelectInputProps {
   changeHandler?: (event: React.ChangeEvent<{ value: unknown }>) => void;
   value?: any;
   label?: string;
+  error?: boolean;
 }
 
-export const SelectInputElm: React.FC<SelectInputProps> = ({ options, value, label, changeHandler: handleChange }) => {
+export const SelectInputElm: React.FC<SelectInputProps> = ({ options, value, label, changeHandler: handleChange, error }) => {
   const selectId: string = `${label?.toLowerCase()}-select`;
 
   return (
     <>
       <InputLabel htmlFor={selectId}>{label}</InputLabel>
       <Select
+        error={error}
         native
         value={value}
         onChange={handleChange}
@@ -24,8 +26,11 @@ export const SelectInputElm: React.FC<SelectInputProps> = ({ options, value, lab
           name: label?.toLowerCase(),
           id: selectId,
         }}>
-        {options?.map((elm: Author) => (
-          <option value={elm.id}>{elm.name}</option>
+        <option aria-label={label} value="" />
+        {options?.map((elm: Author, index: number) => (
+          <option key={index} value={elm.id}>
+            {elm.name}
+          </option>
         ))}
       </Select>
     </>

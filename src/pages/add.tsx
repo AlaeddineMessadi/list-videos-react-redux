@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
+import * as _ from 'lodash';
 
 import { getCategories } from '../services/categories';
 import { Author, Category, Video } from '../common/interfaces';
@@ -9,6 +10,7 @@ import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
 import { parseCategoryIds } from '../utils/helpers';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -41,11 +43,18 @@ export const AddPage: React.FC = () => {
   const classes = useStyles();
 
   /**
-   * Categories and Authors Hooks initialization
+   * videoName, Categories and Authors Hooks initialization
    */
   const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
+  const [authors, setAuthors]: [Author[], (authors: Author[]) => void] = React.useState<Author[]>([]);
   const [categories, setCategories]: [Category[], (categories: Category[]) => void] = React.useState<Category[]>([]);
-  const [authors, setAuthors]: [Author[], (loading: Author[]) => void] = React.useState<Author[]>([]);
+
+  /**
+   * Form inputs errors Hooks initialization
+   */
+  const [videoNameErr, setVideoNameErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
+  const [authorErr, setAuthorErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
+  const [categoryNamesErr, setCategoryNamesErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
 
   /**
    * Form Input videoName ChangeHandler
@@ -62,6 +71,7 @@ export const AddPage: React.FC = () => {
 
   const authorChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const authorId: number = event.target.value as number;
+
     setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
   };
 
@@ -88,6 +98,31 @@ export const AddPage: React.FC = () => {
    * On form submit Handler
    */
   const onSubmit = () => {
+    console.log(categoryNames);
+    console.log(_.isEmpty(categoryNames));
+    /**
+     * form validation
+     */
+    if (!videoName) {
+      setVideoNameErr(true);
+      return;
+    } else {
+      setVideoNameErr(false);
+    }
+    if (_.isEmpty(author)) {
+      setAuthorErr(true);
+      return;
+    } else {
+      setAuthorErr(false);
+    }
+    if (!_.isEmpty(categoryNames)) {
+      console.log(categoryNames);
+      setCategoryNamesErr(true);
+      return;
+    } else {
+      setCategoryNamesErr(false);
+    }
+
     let video: Video = {
       id: Math.floor(Math.random() * 100),
       name: videoName,
@@ -95,9 +130,6 @@ export const AddPage: React.FC = () => {
     };
     let authorClone = author;
     author.videos.push(video);
-    console.log(videoName);
-    console.log(author);
-    console.log(categoryNames);
   };
 
   /**
@@ -125,7 +157,14 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <TextField fullWidth label="Video name" variant="outlined" value={videoName} onChange={videoNameChangeHandler} />
+            <TextField
+              fullWidth
+              label="Video name"
+              variant="outlined"
+              value={videoName}
+              onChange={videoNameChangeHandler}
+              error={videoNameErr}
+            />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
@@ -133,7 +172,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm options={authors} value={author} changeHandler={authorChangeHandler} />
+            <SelectInputElm options={authors} value={author.id} changeHandler={authorChangeHandler} error={authorErr} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
@@ -142,6 +181,7 @@ export const AddPage: React.FC = () => {
         <Grid item xs={12} sm={8}>
           <FormControlElm>
             <MultipleSelector
+              error={categoryNamesErr}
               label="Category"
               categories={categories}
               value={parseCategoryIds(categoryNames)}
