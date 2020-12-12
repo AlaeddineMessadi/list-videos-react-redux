@@ -1,6 +1,7 @@
 import { getCategories } from './categories';
-import { getAuthors } from './authors';
+import { getAuthors, updateAuthor } from './authors';
 import { Author, ProcessedVideo, Video } from '../common/interfaces';
+import { result } from 'lodash';
 
 export const getVideos = (): Promise<ProcessedVideo[]> => {
   return Promise.all([getCategories(), getAuthors()]).then(([categories, authors]) => {
@@ -22,15 +23,14 @@ export const getVideos = (): Promise<ProcessedVideo[]> => {
   });
 };
 
-export const addVideo = async (author: Author): Promise<any[]> => {
-  // console.log(JSON.stringify(author));
-  // return [];
-  return await fetch(`${process.env.REACT_APP_API}/authors/${author.id}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      videos: author.videos,
-      name: author.name,
-    }),
-    headers: { 'Content-type': 'application/json; charset=UTF-8' },
-  }).then((response) => (response.json() as unknown) as Author[]);
+/**
+ * Add a video related to author
+ * @param author Author
+ */
+export const addVideo = async (video: Video, author: Author): Promise<Video[]> => {
+  let updatedAuthor = author;
+  updatedAuthor.videos.push(video);
+  let { videos } = await updateAuthor(updatedAuthor);
+
+  return videos;
 };

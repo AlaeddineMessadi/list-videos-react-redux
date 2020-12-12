@@ -119,10 +119,8 @@ export const AddPage: React.FC = () => {
       name: videoName,
       catIds: parseCategoryIds(categoryNames),
     };
-    let authorClone = author;
-    authorClone.videos.push(video);
 
-    let result = await addVideo(authorClone);
+    let result = await addVideo(video, author);
 
     console.log(`result`, result);
   };
