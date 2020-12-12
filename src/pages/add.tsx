@@ -88,7 +88,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm authors={authors} changeHandler={authorChangeHandler} />
+            <SelectInputElm options={authors} changeHandler={authorChangeHandler} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>

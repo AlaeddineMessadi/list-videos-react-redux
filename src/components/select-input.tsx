@@ -3,13 +3,13 @@ import { InputLabel, Select } from '@material-ui/core';
 import { Author } from '../common/interfaces';
 
 interface SelectInputProps {
-  authors: Author[];
+  options: Author[];
   changeHandler?: (event: React.ChangeEvent<{ value: unknown }>) => void;
   value?: any;
   label?: string;
 }
 
-export const SelectInputElm: React.FC<SelectInputProps> = ({ authors, value, label, changeHandler: handleChange }) => {
+export const SelectInputElm: React.FC<SelectInputProps> = ({ options, value, label, changeHandler: handleChange }) => {
   const selectId: string = `${label?.toLowerCase()}-select`;
 
   return (
@@ -24,7 +24,7 @@ export const SelectInputElm: React.FC<SelectInputProps> = ({ authors, value, lab
           name: label?.toLowerCase(),
           id: selectId,
         }}>
-        {authors?.map((elm: Author) => (
+        {options?.map((elm: Author) => (
           <option value={elm.id}>{elm.name}</option>
         ))}
       </Select>
