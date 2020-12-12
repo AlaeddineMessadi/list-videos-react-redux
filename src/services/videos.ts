@@ -22,9 +22,15 @@ export const getVideos = (): Promise<ProcessedVideo[]> => {
   });
 };
 
-export const addVideo = async (author: Author): Promise<Author[]> => {
+export const addVideo = async (author: Author): Promise<any[]> => {
+  // console.log(JSON.stringify(author));
+  // return [];
   return await fetch(`${process.env.REACT_APP_API}/authors/${author.id}`, {
     method: 'PUT',
-    body: JSON.stringify(author),
+    body: JSON.stringify({
+      videos: author.videos,
+      name: author.name,
+    }),
+    headers: { 'Content-type': 'application/json; charset=UTF-8' },
   }).then((response) => (response.json() as unknown) as Author[]);
 };
