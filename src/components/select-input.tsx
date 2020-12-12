@@ -4,20 +4,13 @@ import { Author } from '../common/interfaces';
 
 interface SelectInputProps {
   authors: Author[];
-  // handleChange?: any;
+  changeHandler?: (event: React.ChangeEvent<{ value: unknown }>) => void;
   value?: any;
   label?: string;
 }
 
-export const SelectInputElm: React.FC<SelectInputProps> = ({ authors, value, label }) => {
+export const SelectInputElm: React.FC<SelectInputProps> = ({ authors, value, label, changeHandler: handleChange }) => {
   const selectId: string = `${label?.toLowerCase()}-select`;
-
-  const [author, setAuthor] = React.useState<Author>({} as Author);
-
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const authorId: number = event.target.value as number;
-    setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
-  };
 
   return (
     <>

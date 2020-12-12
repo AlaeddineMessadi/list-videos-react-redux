@@ -58,6 +58,16 @@ export const AddPage: React.FC = () => {
     });
   }, []);
 
+  /**
+   * form Author Hook and ChangeHandler
+   */
+  const [author, setAuthor] = React.useState<Author>({} as Author);
+
+  const authorChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const authorId: number = event.target.value as number;
+    setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
+  };
+
   return (
     <Container className={classes.root}>
       <Divider className={classes.divider} />
@@ -78,7 +88,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm authors={authors} />
+            <SelectInputElm authors={authors} changeHandler={authorChangeHandler} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
