@@ -59,13 +59,31 @@ export const AddPage: React.FC = () => {
   }, []);
 
   /**
-   * form Author Hook and ChangeHandler
+   * Form Input Author Hooks and ChangeHandler
    */
   const [author, setAuthor] = React.useState<Author>({} as Author);
 
   const authorChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const authorId: number = event.target.value as number;
     setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
+  };
+
+  /**
+   * Form Input Category Hooks and ChangeHandler
+   */
+  const [categoryName, setCategory] = React.useState<string[]>([]);
+  const categoryChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const { options } = event.target as HTMLSelectElement;
+    const value: string[] = [];
+
+    Object.entries(options).map((element, i) => {
+      const option = element[1];
+      if (option.selected) {
+        value.push(option.value);
+      }
+    });
+
+    setCategory(value);
   };
 
   return (
@@ -96,7 +114,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <MultipleSelector categories={categories} label="Category" />
+            <MultipleSelector label="Category" categories={categories} value={categoryName} changeHandler={categoryChangeHandler} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label} />

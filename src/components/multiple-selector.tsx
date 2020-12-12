@@ -4,34 +4,20 @@ import { Category } from '../common/interfaces';
 
 interface MultipleSelectorProps {
   categories: Category[];
+  value: string[];
   label: string;
+  changeHandler?: (event: React.ChangeEvent<{ value: unknown }>) => void;
 }
 
-export const MultipleSelector: React.FC<MultipleSelectorProps> = ({ categories, label }) => {
-  const [categoryName, setCategory] = React.useState<string[]>([]);
-
-  const handleChangeMultiple = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const { options } = event.target as HTMLSelectElement;
-    const value: string[] = [];
-
-    Object.entries(options).map((element, i) => {
-      const option = element[1];
-      if (option.selected) {
-        value.push(option.value);
-      }
-    });
-
-    setCategory(value);
-  };
-
+export const MultipleSelector: React.FC<MultipleSelectorProps> = ({ categories, label, value, changeHandler }) => {
   const inputId: string = `select-multiple-${label.toLowerCase()}`;
   return (
     <>
       <Select
         multiple
         native
-        value={categoryName}
-        onChange={handleChangeMultiple}
+        value={value}
+        onChange={changeHandler}
         inputProps={{
           id: inputId,
         }}>
