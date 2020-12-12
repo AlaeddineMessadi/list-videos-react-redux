@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Button, 
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from '@material-ui/core';
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
 import { ProcessedVideo } from '../common/interfaces';
@@ -22,11 +13,11 @@ const useStyles = makeStyles((theme: Theme) =>
     extendedIcon: {
       marginRight: theme.spacing(1),
     },
-  }),
+  })
 );
 
 interface VideosTableProps {
-    videos: ProcessedVideo[];
+  videos: ProcessedVideo[];
 }
 
 export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
@@ -52,11 +43,11 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
               <TableCell>{video.author}</TableCell>
               <TableCell>{video.categories.join(', ')}</TableCell>
               <TableCell>
-                <Button size="small" color="primary" className={classes.margin}>
-                  <Link to={`/video/${video.id}`}>
+                <Link to={`/video/${video.id}`}>
+                  <Button size="small" color="primary" className={classes.margin}>
                     Edit
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
                 <Button size="small" color="secondary" className={classes.margin}>
                   Remove
                 </Button>
