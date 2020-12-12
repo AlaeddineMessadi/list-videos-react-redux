@@ -1,16 +1,16 @@
-import React from 'react';
 import { Container, Grid } from '@material-ui/core';
+import React from 'react';
 
-interface AboutPageProps {
+interface FAQPageProps {
   content?: JSX.Element;
 }
 
-export const AboutPage: React.FC<AboutPageProps> = ({ content }) => {
+export const FAQPage: React.FC<FAQPageProps> = ({ content }) => {
   return (
     <Container>
       <Grid container spacing={3} alignItems="flex-end">
         <Grid item xs={12}>
-          <h1>About</h1>
+          <h1>Frequently Asked Questions</h1>
         </Grid>
         <Grid item xs={12}>
           <section>
