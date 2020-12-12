@@ -21,3 +21,9 @@ export interface ProcessedVideo {
   author: string;
   categories: string[];
 }
+
+export interface FormErrors {
+  videoName: boolean;
+  author: boolean;
+  categoryNames: boolean;
+}

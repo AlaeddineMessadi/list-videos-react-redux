@@ -3,13 +3,14 @@ import { Button, Container, Divider, Grid, makeStyles, TextField } from '@materi
 import * as _ from 'lodash';
 
 import { getCategories } from '../services/categories';
-import { Author, Category, Video } from '../common/interfaces';
+import { Author, Category, FormErrors, Video } from '../common/interfaces';
 import { getAuthors } from '../services/authors';
 import { Link } from 'react-router-dom';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
 import { parseCategoryIds } from '../utils/helpers';
+import { addVideo } from '../services/videos';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,10 +53,11 @@ export const AddPage: React.FC = () => {
   /**
    * Form inputs errors Hooks initialization
    */
-  const [videoNameErr, setVideoNameErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
-  const [authorErr, setAuthorErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
-  const [categoryNamesErr, setCategoryNamesErr]: [boolean, (error: boolean) => void] = React.useState<boolean>(false);
-
+  const [errors, setErrors]: [FormErrors, (errors: FormErrors) => void] = React.useState<FormErrors>({
+    videoName: false,
+    author: false,
+    categoryNames: false,
+  });
   /**
    * Form Input videoName ChangeHandler
    */
@@ -97,31 +99,20 @@ export const AddPage: React.FC = () => {
   /**
    * On form submit Handler
    */
-  const onSubmit = () => {
-    console.log(categoryNames);
-    console.log(_.isEmpty(categoryNames));
+  const onSubmit = async () => {
     /**
      * form validation
      */
-    if (!videoName) {
-      setVideoNameErr(true);
-      return;
-    } else {
-      setVideoNameErr(false);
-    }
-    if (_.isEmpty(author)) {
-      setAuthorErr(true);
-      return;
-    } else {
-      setAuthorErr(false);
-    }
-    if (!_.isEmpty(categoryNames)) {
-      console.log(categoryNames);
-      setCategoryNamesErr(true);
-      return;
-    } else {
-      setCategoryNamesErr(false);
-    }
+    let localErrors: FormErrors = {
+      ...errors,
+      videoName: _.isEmpty(videoName),
+      author: _.isEmpty(author),
+      categoryNames: _.isEmpty(categoryNames),
+    };
+    setErrors(localErrors);
+
+    // return when error exists
+    if (Object.values(localErrors).includes(true)) return;
 
     let video: Video = {
       id: Math.floor(Math.random() * 100),
@@ -129,7 +120,11 @@ export const AddPage: React.FC = () => {
       catIds: parseCategoryIds(categoryNames),
     };
     let authorClone = author;
-    author.videos.push(video);
+    authorClone.videos.push(video);
+
+    let result = await addVideo(authorClone);
+
+    console.log(`result`, result);
   };
 
   /**
@@ -163,7 +158,7 @@ export const AddPage: React.FC = () => {
               variant="outlined"
               value={videoName}
               onChange={videoNameChangeHandler}
-              error={videoNameErr}
+              error={errors.videoName}
             />
           </FormControlElm>
         </Grid>
@@ -172,7 +167,7 @@ export const AddPage: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm options={authors} value={author.id} changeHandler={authorChangeHandler} error={authorErr} />
+            <SelectInputElm options={authors} value={author.id} changeHandler={authorChangeHandler} error={errors.author} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
@@ -181,7 +176,7 @@ export const AddPage: React.FC = () => {
         <Grid item xs={12} sm={8}>
           <FormControlElm>
             <MultipleSelector
-              error={categoryNamesErr}
+              error={errors.categoryNames}
               label="Category"
               categories={categories}
               value={parseCategoryIds(categoryNames)}
