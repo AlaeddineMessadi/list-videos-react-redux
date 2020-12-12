@@ -17,6 +17,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({ page }) => {
 
   return (
     <div className={classes.root}>
+      <HeaderMenu />
       <Container></Container>
     </div>
   );
