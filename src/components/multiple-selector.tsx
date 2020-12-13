@@ -12,7 +12,7 @@ interface MultipleSelectorProps {
 
 export const MultipleSelector: React.FC<MultipleSelectorProps> = ({ categories, label, value, changeHandler, error }) => {
   const inputId: string = `select-multiple-${label.toLowerCase()}`;
-  console.log('indie ', error);
+
   return (
     <>
       <Select

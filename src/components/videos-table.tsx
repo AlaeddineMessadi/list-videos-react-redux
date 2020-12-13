@@ -29,8 +29,6 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
    */
   const removeVideoHandler = async (id: number, authorName: string) => {
     let result = await removeVideo(id, authorName);
-
-    console.log(result);
   };
 
   return (

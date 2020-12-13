@@ -2,7 +2,7 @@ import { getCategories } from './categories';
 import { getAuthors, updateAuthor } from './authors';
 import { Author, ProcessedVideo, Video } from '../common/interfaces';
 import { result } from 'lodash';
-import { findAuthorByName } from '../utils/helpers';
+import { findAuthorByName, findVideoById } from '../utils/helpers';
 
 export const getVideos = (): Promise<ProcessedVideo[]> => {
   return Promise.all([getCategories(), getAuthors()]).then(([categories, authors]) => {
@@ -51,4 +51,15 @@ export const removeVideo = async (videoId: number, authorName: string): Promise<
   let { videos } = await updateAuthor(updatedAuthor);
 
   return videos;
+};
+
+/**
+ * Get video by ID
+ * @param videoId number
+ */
+export const getVideoById = async (videoId: number): Promise<Video> => {
+  let authors = await getAuthors();
+  let videos = authors.map((author) => author.videos).flat();
+  let video = findVideoById(videos, videoId);
+  return video;
 };
