@@ -4,8 +4,8 @@ import { Author, Category, ProcessedVideo, Video } from '../common/interfaces';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_VIDEOS = 'SET_VIDEOS';
-export const ADD_VIDEOS = 'ADD_VIDEOS';
-export const DELETE_VIDEOS = 'DELETE_VIDEOS';
+export const ADD_VIDEO = 'ADD_VIDEO';
+export const DELETE_VIDEO = 'DELETE_VIDEO';
 
 interface SetCategoriesAction {
   type: typeof SET_CATEGORIES;
@@ -22,15 +22,15 @@ interface SetProcessedVideosAction {
   payload: ProcessedVideo[];
 }
 interface AddVideoAction {
-  type: typeof ADD_VIDEOS;
-  payload: Video[];
+  type: typeof ADD_VIDEO;
+  payload: ProcessedVideo;
 }
 interface DeleteVideoAction {
-  type: typeof DELETE_VIDEOS;
-  payload: Video[];
+  type: typeof DELETE_VIDEO;
+  payload: ProcessedVideo;
 }
 
-export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetProcessedVideosAction;
+export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetProcessedVideosAction | AddVideoAction | DeleteVideoAction;
 
 // AppState type
 export interface AppState {

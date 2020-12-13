@@ -1,4 +1,4 @@
-import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS, SET_VIDEOS } from './types';
+import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS, SET_VIDEOS, ADD_VIDEO, DELETE_VIDEO } from './types';
 import { Category, Author, ProcessedVideo } from '../common/interfaces';
 
 const initialState = {
@@ -24,6 +24,16 @@ export const reducer = (state: AppState = initialState, action: LoadInitialActio
         ...state,
         videos: [...state.videos, ...action.payload],
       };
+    case ADD_VIDEO:
+      return {
+        ...state,
+        videos: [...state.videos, action.payload],
+      };
+    // case DELETE_VIDEO:
+    //   return {
+    //     ...state,
+    //     videos: [...state.videos, ...action.payload],
+    //   };
     default:
       return state;
   }

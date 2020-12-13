@@ -12,7 +12,7 @@ import { parseCategoryIds } from '../utils/helpers';
 import { addVideo } from '../services/videos';
 import { AppState } from '../store/types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { thunkLoadProcessedVideos } from '../store/thunks';
+import { thunkAddVideo, thunkLoadProcessedVideos } from '../store/thunks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -123,7 +123,7 @@ export const AddPage: React.FC = () => {
     };
 
     // persist Video
-    await addVideo(video, author);
+    await dispatch(thunkAddVideo(video, author));
   };
 
   /**

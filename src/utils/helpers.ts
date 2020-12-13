@@ -1,4 +1,4 @@
-import { Author, Category, Video } from '../common/interfaces';
+import { Author, Category, ProcessedVideo, Video } from '../common/interfaces';
 import * as _ from 'lodash';
 
 export const parseCategoryIds: (categories: Category[]) => number[] = (categories: Category[]): number[] => {
@@ -18,4 +18,20 @@ export const findVideoById: (videos: Video[], videoId: number) => Video = (video
 export const findAuthorByVideoId: (authors: Author[], videoId: number) => Author = (authors, videoId): Author => {
   const authorIndex = authors.findIndex((val) => findVideoById(val.videos, videoId));
   return authors[authorIndex];
+};
+
+export const convertToProcessedVideo: (video: Video, author: Author, categories: Category[]) => ProcessedVideo = (
+  video,
+  author,
+  categories
+): ProcessedVideo => {
+  const { id, catIds, name } = video;
+
+  let processedVideo: ProcessedVideo = {
+    id,
+    name,
+    author: author.name,
+    categories: catIds.map((catId) => categories[categories.findIndex((v) => v.id === catId)].name),
+  };
+  return processedVideo;
 };
