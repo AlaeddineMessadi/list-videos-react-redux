@@ -2,14 +2,13 @@ import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
 import { Dispatch } from 'redux';
 import * as _ from 'lodash';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { Author, Category, FormErrors, Video } from '../common/interfaces';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
 import { parseCategoryIds } from '../utils/helpers';
-import { addVideo } from '../services/videos';
 import { AppState } from '../store/types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { thunkAddVideo, thunkLoadProcessedVideos } from '../store/thunks';
@@ -45,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export const AddPage: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const classes = useStyles();
+  let history = useHistory();
 
   /**
    * videoName, Categories and Authors Hooks initialization
@@ -124,6 +124,9 @@ export const AddPage: React.FC = () => {
 
     // persist Video
     await dispatch(thunkAddVideo(video, author));
+
+    // Redirect after submission
+    history.push('/videos');
   };
 
   /**

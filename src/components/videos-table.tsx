@@ -5,6 +5,9 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { ProcessedVideo } from '../common/interfaces';
 import { Link } from 'react-router-dom';
 import { removeVideo } from '../services/videos';
+import { useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { thunkDeleteVideo } from '../store/thunks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,13 +25,15 @@ interface VideosTableProps {
 }
 
 export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
+  const dispatch: Dispatch<any> = useDispatch();
   const classes = useStyles();
 
   /**
    * On form submit Handler
    */
-  const removeVideoHandler = async (id: number, authorName: string) => {
-    let result = await removeVideo(id, authorName);
+  const removeVideoHandler = async (video: ProcessedVideo) => {
+    // persist Video
+    await dispatch(thunkDeleteVideo(video));
   };
 
   return (
@@ -58,11 +63,7 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
                       Edit
                     </Button>
                   </Link>
-                  <Button
-                    size="small"
-                    color="secondary"
-                    className={classes.margin}
-                    onClick={() => removeVideoHandler(video.id, video.author)}>
+                  <Button size="small" color="secondary" className={classes.margin} onClick={() => removeVideoHandler(video)}>
                     Remove
                   </Button>
                 </TableCell>

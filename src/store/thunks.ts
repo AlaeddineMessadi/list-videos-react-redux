@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { loadCategoriesAction, loadAuthorsAction, loadProcessedVideosAction, addVideoAction } from './actions';
+import { loadCategoriesAction, loadAuthorsAction, loadProcessedVideosAction, addVideoAction, deleteVideoAction } from './actions';
 import { RootState } from './';
 import { ThunkAction } from 'redux-thunk';
 import { getCategories } from '../services/categories';
@@ -34,8 +34,10 @@ export const thunkAddVideo = (video: Video, author: Author): AppThunk => async (
   dispatch(addVideoAction(processedVideo));
 };
 
-// export const thunkDeleteVideo = (id: number, authorName: string): AppThunk => async (dispatch) => {
-//   let videosResp: Video[] = await removeVideo(id, authorName);
+export const thunkDeleteVideo = (video: ProcessedVideo): AppThunk => async (dispatch, getState) => {
+  let videoResp = await removeVideo(video);
 
-//   dispatch(deleteVideoAction(videosResp));
-// };
+  let videos: ProcessedVideo[] = getState().videos.filter((vid) => vid.id != videoResp.id);
+
+  dispatch(deleteVideoAction(videos));
+};

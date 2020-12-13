@@ -35,17 +35,17 @@ export const addVideo = async (video: Video, author: Author): Promise<Video> => 
  * Remove a video relative to author
  * @param author Author
  */
-export const removeVideo = async (videoId: number, authorName: string): Promise<Video[]> => {
+export const removeVideo = async (video: ProcessedVideo): Promise<ProcessedVideo> => {
   let authors = await getAuthors();
 
-  let author = findAuthorByName(authors, authorName);
-  let videoIndex = author.videos.findIndex((video) => video.id === videoId);
+  let author = findAuthorByName(authors, video.author);
+  let videoIndex = author.videos.findIndex((vid) => vid.id === video.id);
 
   let updatedAuthor = author;
   updatedAuthor.videos.splice(videoIndex, 1);
-  let { videos } = await updateAuthor(updatedAuthor);
+  let updatedAuthorResp = await updateAuthor(updatedAuthor);
 
-  return videos;
+  return video;
 };
 
 /**

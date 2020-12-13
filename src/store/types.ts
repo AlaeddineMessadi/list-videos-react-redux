@@ -27,7 +27,7 @@ interface AddVideoAction {
 }
 interface DeleteVideoAction {
   type: typeof DELETE_VIDEO;
-  payload: ProcessedVideo;
+  payload: ProcessedVideo[];
 }
 
 export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetProcessedVideosAction | AddVideoAction | DeleteVideoAction;

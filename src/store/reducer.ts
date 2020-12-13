@@ -29,11 +29,11 @@ export const reducer = (state: AppState = initialState, action: LoadInitialActio
         ...state,
         videos: [...state.videos, action.payload],
       };
-    // case DELETE_VIDEO:
-    //   return {
-    //     ...state,
-    //     videos: [...state.videos, ...action.payload],
-    //   };
+    case DELETE_VIDEO:
+      return {
+        ...state,
+        videos: action.payload,
+      };
     default:
       return state;
   }

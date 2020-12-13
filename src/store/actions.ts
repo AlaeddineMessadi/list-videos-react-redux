@@ -34,9 +34,9 @@ export function addVideoAction(video: ProcessedVideo): LoadInitialActionTypes {
 }
 
 // TypeScript infers that this function is returning loadProcessedVideosAction
-// export function deleteVideoAction(videos: Video[]): LoadInitialActionTypes {
-//   return {
-//     type: DELETE_VIDEO,
-//     payload: videos,
-//   };
-// }
+export function deleteVideoAction(videos: ProcessedVideo[]): LoadInitialActionTypes {
+  return {
+    type: DELETE_VIDEO,
+    payload: videos,
+  };
+}
