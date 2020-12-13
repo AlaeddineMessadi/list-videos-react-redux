@@ -1,4 +1,5 @@
 import { Author, Category, Video } from '../common/interfaces';
+import * as _ from 'lodash';
 
 export const parseCategoryIds: (categories: Category[]) => number[] = (categories: Category[]): number[] => {
   return categories.map((cat: Category) => cat.id);

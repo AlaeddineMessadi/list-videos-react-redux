@@ -1,5 +1,5 @@
 import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS, SET_VIDEOS } from './types';
-import { Category, Author, Video, ProcessedVideo } from '../common/interfaces';
+import { Category, Author, ProcessedVideo } from '../common/interfaces';
 
 const initialState = {
   categories: [] as Category[],

@@ -29,27 +29,7 @@ export const ListPage: React.FC<ListPageProps> = () => {
 
   const dispatch: Dispatch<any> = useDispatch();
 
-  const processedVideos: readonly ProcessedVideo[] = useSelector((state: AppState) => {
-    console.log('state', state);
-    return state.videos;
-  }, shallowEqual);
-
-  console.log(processedVideos);
-
-  /**
-  // Videos State
-  const [videos, setVideos]: [ProcessedVideo[], (videos: ProcessedVideo[]) => void] = React.useState(defaultVideos);
-
-  // Loading State
-  const [loading, setLoading]: [boolean, (loading: boolean) => void] = React.useState<boolean>(true);
-
-  React.useEffect(() => {
-    getVideos().then((value) => {
-      setVideos(value);
-      setLoading(false);
-    });
-  }, []);
-  */
+  const processedVideos: readonly ProcessedVideo[] = useSelector((state: AppState) => state.videos, shallowEqual);
 
   return (
     <Container className={classes.root}>

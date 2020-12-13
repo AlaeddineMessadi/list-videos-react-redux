@@ -3,7 +3,6 @@ import { LoadInitialActionTypes, SET_AUTHORS, SET_CATEGORIES, SET_VIDEOS } from 
 
 // TypeScript infers that this function is returning loadCategoriesAction
 export function loadCategoriesAction(categories: Category[]): LoadInitialActionTypes {
-  console.log(categories);
   return {
     type: SET_CATEGORIES,
     payload: categories,

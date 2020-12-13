@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
@@ -13,6 +11,8 @@ import { EditPage } from '../pages/edit';
 import { AddPage } from '../pages/add';
 
 import { thunkLoadAuthors, thunkLoadCategories, thunkLoadProcessedVideos } from '../store/thunks';
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
 interface BaseLayoutProps {}
 
 export const BaseLayout: React.FC<BaseLayoutProps> = () => {
+  const dispatch: Dispatch<any> = useDispatch();
+
   const classes = useStyles();
 
-  const dispatch: Dispatch<any> = useDispatch();
   useEffect(() => {
-    // TODO fix dispatch chain async in thunk
     dispatch(thunkLoadProcessedVideos());
     dispatch(thunkLoadCategories());
     dispatch(thunkLoadAuthors());

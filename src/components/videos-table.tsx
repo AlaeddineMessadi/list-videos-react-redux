@@ -45,8 +45,8 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
 
         <TableBody>
           {videos &&
-            videos.map((video) => (
-              <TableRow key={video.id}>
+            videos.map((video, index) => (
+              <TableRow key={`${video.id}-${index}`}>
                 <TableCell component="th" scope="row">
                   {video.name}
                 </TableCell>

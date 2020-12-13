@@ -1,16 +1,18 @@
 import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Dispatch } from 'redux';
 import * as _ from 'lodash';
-
-import { getCategories } from '../services/categories';
-import { Author, Category, FormErrors, Video } from '../common/interfaces';
-import { getAuthors } from '../services/authors';
 import { Link } from 'react-router-dom';
+
+import { Author, Category, FormErrors, Video } from '../common/interfaces';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
 import { parseCategoryIds } from '../utils/helpers';
 import { addVideo } from '../services/videos';
+import { AppState } from '../store/types';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { thunkLoadProcessedVideos } from '../store/thunks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,14 +43,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddPage: React.FC = () => {
+  const dispatch: Dispatch<any> = useDispatch();
   const classes = useStyles();
 
   /**
    * videoName, Categories and Authors Hooks initialization
    */
   const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
-  const [authors, setAuthors]: [Author[], (authors: Author[]) => void] = React.useState<Author[]>([]);
-  const [categories, setCategories]: [Category[], (categories: Category[]) => void] = React.useState<Category[]>([]);
 
   /**
    * Form inputs errors Hooks initialization
@@ -58,6 +59,7 @@ export const AddPage: React.FC = () => {
     author: false,
     categoryNames: false,
   });
+
   /**
    * Form Input videoName ChangeHandler
    */
@@ -120,23 +122,14 @@ export const AddPage: React.FC = () => {
       catIds: parseCategoryIds(categoryNames),
     };
 
-    let result = await addVideo(video, author);
-
-    console.log(`result`, result);
+    // persist Video
+    await addVideo(video, author);
   };
 
   /**
    * Fetch data: categories and authors
    */
-  React.useEffect(() => {
-    getCategories().then((value) => {
-      setCategories(value);
-    });
-
-    getAuthors().then((value) => {
-      setAuthors(value);
-    });
-  }, []);
+  const { categories, authors } = useSelector((state: AppState) => state, shallowEqual);
 
   return (
     <Container className={classes.root}>
