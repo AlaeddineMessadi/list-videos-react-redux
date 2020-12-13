@@ -14,3 +14,9 @@ interface SetAuthorsAction {
 }
 
 export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction;
+
+// AppState type
+export interface AppState {
+  categories: Category[];
+  authors: Author[];
+}

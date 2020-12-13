@@ -1,28 +1,24 @@
-const Reducer = (state, action) => {
+// src/store/chat/reducers.ts
+
+import { Author, Category } from '../common/interfaces';
+import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS } from './types';
+
+const initialState = {
+  categories: [],
+  authors: [],
+};
+
+export function AppReducer(state = initialState, action: LoadInitialActionTypes) {
   switch (action.type) {
-    case 'SET_CATEGORIES':
+    case SET_CATEGORIES:
       return {
-        ...state,
-        posts: action.payload,
+        categories: [...state.categories, action.payload],
       };
-    case 'SET_AUTHORS':
+    case SET_AUTHORS:
       return {
-        ...state,
-        posts: state.posts.concat(action.payload),
-      };
-    case 'REMOVE_POST':
-      return {
-        ...state,
-        posts: state.posts.filter((post) => post.id !== action.payload),
-      };
-    case 'SET_ERROR':
-      return {
-        ...state,
-        error: action.payload,
+        authors: [...state.authors, action.payload],
       };
     default:
       return state;
   }
-};
-
-export default Reducer;
+}
