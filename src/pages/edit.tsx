@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
-import { findVideoById, parseCategoryIds } from '../utils/helpers';
+import { findAuthorByVideoId, findVideoById, parseCategoryIds } from '../utils/helpers';
 import { addVideo, getVideoById } from '../services/videos';
 
 type TParams = {
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const EditPage: React.FC<EditPageProps> = ({ match }) => {
   const videoId: number = match.params.id;
-  console.log(videoId);
   const classes = useStyles();
 
   /**
@@ -76,7 +75,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
    */
   const videoNameChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const vidName: string = event.target.value as string;
-    setVideoName(vidName);
+    setVideo({ ...video, name: vidName });
   };
 
   /**
@@ -152,6 +151,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
 
     getVideoById(videoId).then((video) => {
       setVideo(video);
+      setAuthor(findAuthorByVideoId(authors, videoId));
     });
   }, []);
 
@@ -160,7 +160,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
       <Divider className={classes.divider} />
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <h1>Edit Video with ID: {video.name}</h1>
+          <h1>Edit Video with ID: {video.id}</h1>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
           <label>Video Name</label>
@@ -169,9 +169,8 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
           <FormControlElm>
             <TextField
               fullWidth
-              label="Video name"
               variant="outlined"
-              value={videoName}
+              value={video && video.name}
               onChange={videoNameChangeHandler}
               error={errors.videoName}
             />
@@ -182,7 +181,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm options={authors} value={author.id} changeHandler={authorChangeHandler} error={errors.author} />
+            <SelectInputElm options={authors} value={author.id || ''} changeHandler={authorChangeHandler} error={errors.author} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>

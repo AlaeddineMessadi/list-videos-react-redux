@@ -21,7 +21,7 @@ export const SelectInputElm: React.FC<SelectInputProps> = ({ options, value, lab
         native
         value={value}
         onChange={handleChange}
-        label={label}
+        label={label && label}
         inputProps={{
           name: label?.toLowerCase(),
           id: selectId,

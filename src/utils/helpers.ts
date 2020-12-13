@@ -13,3 +13,8 @@ export const findVideoById: (videos: Video[], videoId: number) => Video = (video
   const videoIndex = videos.findIndex((video) => video.id == videoId);
   return videos[videoIndex];
 };
+
+export const findAuthorByVideoId: (authors: Author[], videoId: number) => Author = (authors, videoId): Author => {
+  const authorIndex = authors.findIndex((val) => findVideoById(val.videos, videoId));
+  return authors[authorIndex];
+};
