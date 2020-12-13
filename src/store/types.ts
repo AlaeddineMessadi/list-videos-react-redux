@@ -1,10 +1,9 @@
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { RootState } from '.';
-import { Author, Category } from '../common/interfaces';
+import { Author, Category, ProcessedVideo } from '../common/interfaces';
 
+//  TYPES
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_AUTHORS = 'SET_AUTHORS';
+export const SET_VIDEOS = 'SET_VIDEOS';
 
 interface SetCategoriesAction {
   type: typeof SET_CATEGORIES;
@@ -16,10 +15,16 @@ interface SetAuthorsAction {
   payload: Author[];
 }
 
-export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction;
+interface SetVideosAction {
+  type: typeof SET_AUTHORS;
+  payload: Author[];
+}
+
+export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetVideosAction;
 
 // AppState type
 export interface AppState {
   categories: Category[];
   authors: Author[];
+  videos: ProcessedVideo[];
 }

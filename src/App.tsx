@@ -8,15 +8,15 @@ import { store } from './store';
 
 import { Dispatch } from 'redux';
 import { useDispatch } from 'react-redux';
+import { loadProcessedVideosAction } from './store/actions';
 
 const App: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const [videos, setVideos] = useState<ProcessedVideo[]>([]);
 
   useEffect(() => {
-    getVideos().then((videos) => {
-      setVideos(videos);
-    });
+    // load processed videos
+    dispatch(loadProcessedVideosAction);
   }, []);
 
   const videosList = <VideosTable videos={videos} />;
