@@ -1,21 +1,19 @@
-// src/thunks.ts
-
 import { Action } from 'redux';
-import { sendMessage } from './actions';
-import { RootState } from './store';
+import { loadCategoriesAction, loadAuthorsAction } from './actions';
+import { RootState } from './';
 import { ThunkAction } from 'redux-thunk';
+import { getCategories } from '../services/categories';
+import { getAuthors } from '../services/authors';
 
-export const thunkLoadCategories = (): ThunkAction<void, RootState, unknown, Action<string>> => async (dispatch) => {
-  const asyncResp = await exampleAPI();
-  dispatch(
-    sendMessage({
-      message,
-      user: asyncResp,
-      timestamp: new Date().getTime(),
-    })
-  );
+// AppThunk type
+type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
+
+export const thunkLoadCategories = (): AppThunk => async (dispatch) => {
+  const categoriesResp = await getCategories();
+  dispatch(loadCategoriesAction(categoriesResp));
 };
 
-function exampleAPI() {
-  return Promise.resolve('Async Chat Bot');
-}
+export const thunkLoadAuthors = (): AppThunk => async (dispatch) => {
+  const authorsResp = await getAuthors();
+  dispatch(loadAuthorsAction(authorsResp));
+};

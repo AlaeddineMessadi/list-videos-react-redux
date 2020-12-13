@@ -1,3 +1,6 @@
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { RootState } from '.';
 import { Author, Category } from '../common/interfaces';
 
 export const SET_CATEGORIES = 'SET_CATEGORIES';

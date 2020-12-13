@@ -1,6 +1,3 @@
-// src/store/chat/reducers.ts
-
-import { Author, Category } from '../common/interfaces';
 import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS } from './types';
 
 const initialState = {
