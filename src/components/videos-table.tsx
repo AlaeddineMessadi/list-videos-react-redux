@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface VideosTableProps {
-  videos: ProcessedVideo[];
+  videos: readonly ProcessedVideo[];
 }
 
 export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
@@ -42,30 +42,32 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
             <TableCell>Options</TableCell>
           </TableRow>
         </TableHead>
+
         <TableBody>
-          {videos.map((video) => (
-            <TableRow key={video.id}>
-              <TableCell component="th" scope="row">
-                {video.name}
-              </TableCell>
-              <TableCell>{video.author}</TableCell>
-              <TableCell>{video.categories.join(', ')}</TableCell>
-              <TableCell>
-                <Link to={`/video/${video.id}`}>
-                  <Button size="small" color="primary" className={classes.margin}>
-                    Edit
+          {videos &&
+            videos.map((video) => (
+              <TableRow key={video.id}>
+                <TableCell component="th" scope="row">
+                  {video.name}
+                </TableCell>
+                <TableCell>{video.author}</TableCell>
+                <TableCell>{video.categories.join(', ')}</TableCell>
+                <TableCell>
+                  <Link to={`/video/${video.id}`}>
+                    <Button size="small" color="primary" className={classes.margin}>
+                      Edit
+                    </Button>
+                  </Link>
+                  <Button
+                    size="small"
+                    color="secondary"
+                    className={classes.margin}
+                    onClick={() => removeVideoHandler(video.id, video.author)}>
+                    Remove
                   </Button>
-                </Link>
-                <Button
-                  size="small"
-                  color="secondary"
-                  className={classes.margin}
-                  onClick={() => removeVideoHandler(video.id, video.author)}>
-                  Remove
-                </Button>
-              </TableCell>
-            </TableRow>
-          ))}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>

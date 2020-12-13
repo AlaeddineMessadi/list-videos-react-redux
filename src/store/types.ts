@@ -15,12 +15,12 @@ interface SetAuthorsAction {
   payload: Author[];
 }
 
-interface SetVideosAction {
-  type: typeof SET_AUTHORS;
-  payload: Author[];
+interface SetProcessedVideosAction {
+  type: typeof SET_VIDEOS;
+  payload: ProcessedVideo[];
 }
 
-export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetVideosAction;
+export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetProcessedVideosAction;
 
 // AppState type
 export interface AppState {

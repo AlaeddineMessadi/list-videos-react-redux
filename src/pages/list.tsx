@@ -4,7 +4,9 @@ import { Container, Grid } from '@material-ui/core';
 import { VideosTable } from '../components/videos-table';
 
 import { ProcessedVideo } from '../common/interfaces';
-import { getVideos } from '../services/videos';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { AppState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +29,11 @@ const defaultVideos: ProcessedVideo[] = [];
 export const ListPage: React.FC<ListPageProps> = ({ list }) => {
   const classes = useStyles();
 
+  const dispatch: Dispatch<any> = useDispatch();
+
+  const processedVideos: readonly ProcessedVideo[] = useSelector((state: AppState) => state.videos, shallowEqual);
+
+  /**
   // Videos State
   const [videos, setVideos]: [ProcessedVideo[], (videos: ProcessedVideo[]) => void] = React.useState(defaultVideos);
 
@@ -39,6 +46,7 @@ export const ListPage: React.FC<ListPageProps> = ({ list }) => {
       setLoading(false);
     });
   }, []);
+  */
 
   return (
     <Container className={classes.root}>
@@ -47,7 +55,7 @@ export const ListPage: React.FC<ListPageProps> = ({ list }) => {
           <h1>List of Videos</h1>
         </Grid>
         <Grid item xs={12}>
-          <VideosTable videos={videos} />
+          <VideosTable videos={processedVideos} />
         </Grid>
       </Grid>
     </Container>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 
@@ -11,18 +11,29 @@ import { HeaderMenu } from '../components/header-menu';
 import { EditPage } from '../pages/edit';
 import { AddPage } from '../pages/add';
 
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
+import { loadAuthorsAction, loadCategoriesAction, loadProcessedVideosAction } from '../store/actions';
+import { thunkLoadAuthors, thunkLoadCategories, thunkLoadProcessedVideos } from '../store/thunks';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
 }));
 
-interface BaseLayoutProps {
-  page: JSX.Element;
-}
+interface BaseLayoutProps {}
 
-export const BaseLayout: React.FC<BaseLayoutProps> = ({ page }) => {
+export const BaseLayout: React.FC<BaseLayoutProps> = () => {
   const classes = useStyles();
+
+  const dispatch: Dispatch<any> = useDispatch();
+  useEffect(() => {
+    // load processed videos
+    dispatch(thunkLoadProcessedVideos());
+    dispatch(thunkLoadCategories());
+    dispatch(thunkLoadAuthors());
+  }, []);
 
   return (
     <Router>

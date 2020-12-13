@@ -1,8 +1,9 @@
-import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS } from './types';
+import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS, SET_VIDEOS } from './types';
 
 const initialState = {
   categories: [],
   authors: [],
+  videos: [],
 };
 
 export function AppReducer(state = initialState, action: LoadInitialActionTypes) {
@@ -14,6 +15,10 @@ export function AppReducer(state = initialState, action: LoadInitialActionTypes)
     case SET_AUTHORS:
       return {
         authors: [...state.authors, action.payload],
+      };
+    case SET_VIDEOS:
+      return {
+        videos: [...state.videos, action.payload],
       };
     default:
       return state;
