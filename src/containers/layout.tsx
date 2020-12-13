@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-
-import { BrowserRouter as Router, Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 
 import { ListPage } from '../pages/list';
 import { AboutPage } from '../pages/about';
@@ -11,9 +12,6 @@ import { HeaderMenu } from '../components/header-menu';
 import { EditPage } from '../pages/edit';
 import { AddPage } from '../pages/add';
 
-import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
-import { loadAuthorsAction, loadCategoriesAction, loadProcessedVideosAction } from '../store/actions';
 import { thunkLoadAuthors, thunkLoadCategories, thunkLoadProcessedVideos } from '../store/thunks';
 
 const useStyles = makeStyles((theme) => ({
