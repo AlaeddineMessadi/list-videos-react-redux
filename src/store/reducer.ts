@@ -1,26 +1,30 @@
 import { AppState, LoadInitialActionTypes, SET_CATEGORIES, SET_AUTHORS, SET_VIDEOS } from './types';
+import { Category, Author, Video, ProcessedVideo } from '../common/interfaces';
 
 const initialState = {
-  categories: [],
-  authors: [],
-  videos: [],
+  categories: [] as Category[],
+  authors: [] as Author[],
+  videos: [] as ProcessedVideo[],
 };
 
-export function AppReducer(state = initialState, action: LoadInitialActionTypes) {
+export const reducer = (state: AppState = initialState, action: LoadInitialActionTypes) => {
   switch (action.type) {
     case SET_CATEGORIES:
       return {
-        categories: [...state.categories, action.payload],
+        ...state,
+        categories: [...state.categories, ...action.payload],
       };
     case SET_AUTHORS:
       return {
-        authors: [...state.authors, action.payload],
+        ...state,
+        authors: [...state.authors, ...action.payload],
       };
     case SET_VIDEOS:
       return {
-        videos: [...state.videos, action.payload],
+        ...state,
+        videos: [...state.videos, ...action.payload],
       };
     default:
       return state;
   }
-}
+};

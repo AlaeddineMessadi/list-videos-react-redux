@@ -27,7 +27,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = () => {
 
   const dispatch: Dispatch<any> = useDispatch();
   useEffect(() => {
-    // load processed videos
+    // TODO fix dispatch chain async in thunk
     dispatch(thunkLoadProcessedVideos());
     dispatch(thunkLoadCategories());
     dispatch(thunkLoadAuthors());
