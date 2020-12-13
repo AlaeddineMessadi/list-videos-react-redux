@@ -1,17 +1,19 @@
 import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import * as _ from 'lodash';
-import { Link, useHistory } from 'react-router-dom';
+import moment from 'moment';
 
-import { Author, Category, FormErrors, Video } from '../common/interfaces';
+import { Author, Category, FormErrors, Video, Format } from '../common/interfaces';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
-import { parseCategoryIds } from '../utils/helpers';
+import { findAuthorById, parseCategoryIds } from '../utils/helpers';
 import { AppState } from '../store/types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { thunkAddVideo, thunkLoadProcessedVideos } from '../store/thunks';
+import { thunkAddVideo } from '../store/thunks';
+import { DEFAULT_VIDEO_FORMAT } from '../common/constants';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,13 +49,16 @@ export const AddPage: React.FC = () => {
   let history = useHistory();
 
   /**
-   * videoName, Categories and Authors Hooks initialization
+   * get categories and authors from state
    */
-  const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
+  const { categories, authors } = useSelector((state: AppState) => state, shallowEqual);
 
   /**
-   * Form inputs errors Hooks initialization
+   * videoName, Categories , Authors and Errors Hooks initialization
    */
+  const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
+  const [author, setAuthor] = React.useState<Author>({} as Author);
+  const [categoryNames, setCategory] = React.useState<Category[]>([]);
   const [errors, setErrors]: [FormErrors, (errors: FormErrors) => void] = React.useState<FormErrors>({
     videoName: false,
     author: false,
@@ -68,21 +73,16 @@ export const AddPage: React.FC = () => {
     setVideoName(vidName);
   };
 
-  /**
-   * Form Input Author Hooks and ChangeHandler
-   */
-  const [author, setAuthor] = React.useState<Author>({} as Author);
-
   const authorChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const authorId: number = event.target.value as number;
+    const authorId = parseInt(event.target.value as string);
 
-    setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
+    const foundAuthor = findAuthorById(authors, authorId);
+    setAuthor(foundAuthor);
   };
 
   /**
-   * Form Input Category Hooks and ChangeHandler
+   * Form Input Category ChangeHandler
    */
-  const [categoryNames, setCategory] = React.useState<Category[]>([]);
   const categoryChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const { options } = event.target as HTMLSelectElement;
     const value: Category[] = [];
@@ -117,9 +117,11 @@ export const AddPage: React.FC = () => {
     if (Object.values(localErrors).includes(true)) return;
 
     let video: Video = {
-      id: Math.floor(Math.random() * 100),
+      id: Math.floor(Math.random() * 999), // random generated id
       name: videoName,
       catIds: parseCategoryIds(categoryNames),
+      formats: [DEFAULT_VIDEO_FORMAT],
+      date: moment().format('l'), // random generated release date
     };
 
     // persist Video
@@ -128,11 +130,6 @@ export const AddPage: React.FC = () => {
     // Redirect after submission
     history.push('/videos');
   };
-
-  /**
-   * Fetch data: categories and authors
-   */
-  const { categories, authors } = useSelector((state: AppState) => state, shallowEqual);
 
   return (
     <Container className={classes.root}>

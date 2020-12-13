@@ -1,5 +1,5 @@
 import { Author, Category, ProcessedVideo } from '../common/interfaces';
-import { ADD_VIDEO, DELETE_VIDEO, LoadInitialActionTypes, SET_AUTHORS, SET_CATEGORIES, SET_VIDEOS } from './types';
+import { ADD_VIDEO, DELETE_VIDEO, LoadInitialActionTypes, SET_AUTHORS, SET_CATEGORIES, SET_VIDEOS, UPDATE_VIDEO } from './types';
 
 // TypeScript infers that this function is returning loadCategoriesAction
 export function loadCategoriesAction(categories: Category[]): LoadInitialActionTypes {
@@ -25,7 +25,7 @@ export function loadProcessedVideosAction(processesVideos: ProcessedVideo[]): Lo
   };
 }
 
-// TypeScript infers that this function is returning loadProcessedVideosAction
+// TypeScript infers that this function is returning addVideoAction
 export function addVideoAction(video: ProcessedVideo): LoadInitialActionTypes {
   return {
     type: ADD_VIDEO,
@@ -33,7 +33,15 @@ export function addVideoAction(video: ProcessedVideo): LoadInitialActionTypes {
   };
 }
 
-// TypeScript infers that this function is returning loadProcessedVideosAction
+// TypeScript infers that this function is returning updateVideoAction
+export function updateVideoAction(videos: ProcessedVideo[]): LoadInitialActionTypes {
+  return {
+    type: UPDATE_VIDEO,
+    payload: videos,
+  };
+}
+
+// TypeScript infers that this function is returning deleteVideoAction
 export function deleteVideoAction(videos: ProcessedVideo[]): LoadInitialActionTypes {
   return {
     type: DELETE_VIDEO,

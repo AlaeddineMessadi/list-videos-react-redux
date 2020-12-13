@@ -1,10 +1,17 @@
 import { Action } from 'redux';
-import { loadCategoriesAction, loadAuthorsAction, loadProcessedVideosAction, addVideoAction, deleteVideoAction } from './actions';
+import {
+  loadCategoriesAction,
+  loadAuthorsAction,
+  loadProcessedVideosAction,
+  addVideoAction,
+  deleteVideoAction,
+  updateVideoAction,
+} from './actions';
 import { RootState } from './';
 import { ThunkAction } from 'redux-thunk';
 import { getCategories } from '../services/categories';
 import { getAuthors } from '../services/authors';
-import { addVideo, getVideos, removeVideo } from '../services/videos';
+import { addVideo, getVideos, removeVideo, updateVideo } from '../services/videos';
 import { Author, Category, ProcessedVideo, Video } from '../common/interfaces';
 import { convertToProcessedVideo } from '../utils/helpers';
 
@@ -28,10 +35,26 @@ export const thunkLoadProcessedVideos = (): AppThunk => async (dispatch) => {
 
 export const thunkAddVideo = (video: Video, author: Author): AppThunk => async (dispatch, getState) => {
   let categories: Category[] = getState().categories;
-  let videosResp: Video = await addVideo(video, author);
+  let videoResp: Video = await addVideo(video, author);
 
   let processedVideo: ProcessedVideo = convertToProcessedVideo(video, author, categories);
   dispatch(addVideoAction(processedVideo));
+};
+
+export const thunkUpdateVideo = (video: Video, author: Author): AppThunk => async (dispatch, getState) => {
+  let categories: Category[] = getState().categories;
+  let videos: ProcessedVideo[] = getState().videos;
+  let videoResp: Video = await updateVideo(video, author);
+
+  console.log('non updated', videos);
+  // new array with updated video
+  let processedVideo: ProcessedVideo = convertToProcessedVideo(videoResp, author, categories);
+  const videoIndex = videos.findIndex((vid) => vid.id === video.id);
+  videos[videoIndex] = processedVideo;
+
+  console.log(' updated', videos);
+
+  dispatch(updateVideoAction(videos));
 };
 
 export const thunkDeleteVideo = (video: ProcessedVideo): AppThunk => async (dispatch, getState) => {

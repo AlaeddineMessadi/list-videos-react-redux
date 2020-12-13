@@ -2,12 +2,13 @@ import React from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import { ProcessedVideo } from '../common/interfaces';
+import { ProcessedVideo, Video } from '../common/interfaces';
 import { Link } from 'react-router-dom';
 import { removeVideo } from '../services/videos';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { thunkDeleteVideo } from '../store/thunks';
+import { findHighestVideoFormat } from '../utils/helpers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,7 +28,6 @@ interface VideosTableProps {
 export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
   const dispatch: Dispatch<any> = useDispatch();
   const classes = useStyles();
-
   /**
    * On form submit Handler
    */
@@ -43,7 +43,9 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
           <TableRow>
             <TableCell>Video Name</TableCell>
             <TableCell>Author</TableCell>
-            <TableCell>Categories</TableCell>
+            <TableCell>Category Name</TableCell>
+            <TableCell>Highest quality Format</TableCell>
+            <TableCell>Release Date</TableCell>
             <TableCell>Options</TableCell>
           </TableRow>
         </TableHead>
@@ -57,6 +59,8 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
                 </TableCell>
                 <TableCell>{video.author}</TableCell>
                 <TableCell>{video.categories.join(', ')}</TableCell>
+                <TableCell>{findHighestVideoFormat(video)}</TableCell>
+                <TableCell>{video.date}</TableCell>
                 <TableCell>
                   <Link to={`/video/${video.id}`}>
                     <Button size="small" color="primary" className={classes.margin}>

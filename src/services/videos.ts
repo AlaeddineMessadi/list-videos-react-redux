@@ -32,6 +32,22 @@ export const addVideo = async (video: Video, author: Author): Promise<Video> => 
 };
 
 /**
+ * update a video related to author
+ * @param author Author
+ */
+export const updateVideo = async (video: Video, author: Author): Promise<Video> => {
+  let updatedAuthor = author;
+
+  const videoIndex = updatedAuthor.videos.findIndex((vid) => vid.id == video.id);
+  updatedAuthor.videos[videoIndex] = video;
+
+  let result = await updateAuthor(updatedAuthor);
+  console.log('result', result);
+
+  return video;
+};
+
+/**
  * Remove a video relative to author
  * @param author Author
  */

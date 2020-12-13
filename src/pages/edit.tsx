@@ -1,16 +1,19 @@
 import React from 'react';
 import { Button, Container, Divider, Grid, makeStyles, TextField } from '@material-ui/core';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { Dispatch } from 'redux';
 import * as _ from 'lodash';
+import moment from 'moment';
 
-import { getCategories } from '../services/categories';
-import { Author, Category, FormErrors, Video } from '../common/interfaces';
-import { getAuthors } from '../services/authors';
-import { Link } from 'react-router-dom';
+import { Author, Category, FormErrors, Video, Format, ProcessedVideo } from '../common/interfaces';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';
-import { findAuthorByVideoId, findVideoById, parseCategoryIds } from '../utils/helpers';
-import { addVideo, getVideoById } from '../services/videos';
+import { findAuthorById, parseCategoryIds, findProcessedVideoById, findAuthorByVideoId, findCategoriesByVideo } from '../utils/helpers';
+import { DEFAULT_VIDEO_FORMAT } from '../common/constants';
+import { thunkUpdateVideo } from '../store/thunks';
+import { AppState } from '../store/types';
 
 type TParams = {
   params: any;
@@ -49,18 +52,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const EditPage: React.FC<EditPageProps> = ({ match }) => {
-  const videoId: number = match.params.id;
+  const videoId: number = parseInt(match.params.id);
+  let history = useHistory();
+  const dispatch: Dispatch<any> = useDispatch();
   const classes = useStyles();
+
+  /**
+   * get categories and authors from state
+   */
+  const { categories, authors, videos } = useSelector((state: AppState) => state, shallowEqual);
+  const video: ProcessedVideo = findProcessedVideoById(videos, videoId);
+  const selectedAuthor: Author = findAuthorByVideoId(authors, videoId);
+  const selectedCategories: Category[] = findCategoriesByVideo(categories, video);
 
   /**
    * videoName, Categories and Authors Hooks initialization
    */
-  const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>('');
-  const [authors, setAuthors]: [Author[], (authors: Author[]) => void] = React.useState<Author[]>([]);
-  const [categories, setCategories]: [Category[], (categories: Category[]) => void] = React.useState<Category[]>([]);
-
-  // current video
-  const [video, setVideo]: [Video, (video: Video) => void] = React.useState<Video>({} as Video);
+  const [videoName, setVideoName]: [string, (videoName: string) => void] = React.useState<string>(video.name);
+  const [author, setAuthor] = React.useState<Author>(selectedAuthor);
+  const [categoryNames, setCategory] = React.useState<Category[]>(selectedCategories);
 
   /**
    * Form inputs errors Hooks initialization
@@ -70,29 +80,27 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
     author: false,
     categoryNames: false,
   });
+
   /**
    * Form Input videoName ChangeHandler
    */
   const videoNameChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const vidName: string = event.target.value as string;
-    setVideo({ ...video, name: vidName });
+    setVideoName(vidName);
   };
 
   /**
-   * Form Input Author Hooks and ChangeHandler
+   * Form Input Author ChangeHandler
    */
-  const [author, setAuthor] = React.useState<Author>({} as Author);
-
   const authorChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const authorId: number = event.target.value as number;
+    const authorId = parseInt(event.target.value as string);
 
-    setAuthor(authors[authors.findIndex((elm) => elm.id == authorId)]);
+    setAuthor(findAuthorById(authors, authorId));
   };
 
   /**
-   * Form Input Category Hooks and ChangeHandler
+   * Form Input Category ChangeHandler
    */
-  const [categoryNames, setCategory] = React.useState<Category[]>([]);
   const categoryChangeHandler = (event: React.ChangeEvent<{ value: unknown }>) => {
     const { options } = event.target as HTMLSelectElement;
     const value: Category[] = [];
@@ -127,40 +135,26 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
     if (Object.values(localErrors).includes(true)) return;
 
     let video: Video = {
-      id: Math.floor(Math.random() * 100),
+      id: videoId, // random generated id
       name: videoName,
       catIds: parseCategoryIds(categoryNames),
+      formats: [DEFAULT_VIDEO_FORMAT],
+      date: moment().format('l'), // random generated release date
     };
 
-    let result = await addVideo(video, author);
+    // persist Video
+    await dispatch(thunkUpdateVideo(video, author));
 
-    console.log(`result`, result);
+    // Redirect after submission
+    history.push('/videos');
   };
-
-  /**
-   * Fetch data: categories and authors
-   */
-  React.useEffect(() => {
-    getCategories().then((categories) => {
-      setCategories(categories);
-    });
-
-    getAuthors().then((authors) => {
-      setAuthors(authors);
-    });
-
-    getVideoById(videoId).then((video) => {
-      setVideo(video);
-      setAuthor(findAuthorByVideoId(authors, videoId));
-    });
-  }, []);
 
   return (
     <Container className={classes.root}>
       <Divider className={classes.divider} />
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <h1>Edit Video with ID: {video.id}</h1>
+          <h1>Edit Video with id: {video.id}</h1>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>
           <label>Video Name</label>
@@ -169,8 +163,9 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
           <FormControlElm>
             <TextField
               fullWidth
+              label="Video name"
               variant="outlined"
-              value={video && video.name}
+              value={videoName}
               onChange={videoNameChangeHandler}
               error={errors.videoName}
             />
@@ -181,7 +176,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
         </Grid>
         <Grid item xs={12} sm={8}>
           <FormControlElm>
-            <SelectInputElm options={authors} value={author.id || ''} changeHandler={authorChangeHandler} error={errors.author} />
+            <SelectInputElm options={authors} value={author.id} changeHandler={authorChangeHandler} error={errors.author} />
           </FormControlElm>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.label}>

@@ -5,6 +5,7 @@ export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_AUTHORS = 'SET_AUTHORS';
 export const SET_VIDEOS = 'SET_VIDEOS';
 export const ADD_VIDEO = 'ADD_VIDEO';
+export const UPDATE_VIDEO = 'UPDATE_VIDEO';
 export const DELETE_VIDEO = 'DELETE_VIDEO';
 
 interface SetCategoriesAction {
@@ -25,12 +26,22 @@ interface AddVideoAction {
   type: typeof ADD_VIDEO;
   payload: ProcessedVideo;
 }
+interface UpdateVideoAction {
+  type: typeof UPDATE_VIDEO;
+  payload: ProcessedVideo[];
+}
 interface DeleteVideoAction {
   type: typeof DELETE_VIDEO;
   payload: ProcessedVideo[];
 }
 
-export type LoadInitialActionTypes = SetCategoriesAction | SetAuthorsAction | SetProcessedVideosAction | AddVideoAction | DeleteVideoAction;
+export type LoadInitialActionTypes =
+  | SetCategoriesAction
+  | SetAuthorsAction
+  | SetProcessedVideosAction
+  | AddVideoAction
+  | UpdateVideoAction
+  | DeleteVideoAction;
 
 // AppState type
 export interface AppState {
