@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 
-import { ProcessedVideo, Video } from '../common/interfaces';
+import { ProcessedVideo } from '../common/interfaces';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -31,10 +31,6 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
 
   const [open, setOpen] = React.useState(false);
   const [video, setVideo] = React.useState({} as ProcessedVideo);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);

@@ -17,17 +17,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface ListPageProps {}
 
-// default videos value
-const defaultVideos: ProcessedVideo[] = [];
-
 /**
  *  List Page
  * @param param0 ListPageProps
  */
 export const ListPage: React.FC<ListPageProps> = () => {
   const classes = useStyles();
-
-  const dispatch: Dispatch<any> = useDispatch();
 
   const processedVideos: readonly ProcessedVideo[] = useSelector((state: AppState) => state.videos, shallowEqual);
 

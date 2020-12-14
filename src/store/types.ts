@@ -1,4 +1,4 @@
-import { Author, Category, ProcessedVideo, Video } from '../common/interfaces';
+import { Author, Category, ProcessedVideo } from '../common/interfaces';
 
 //  TYPES
 export const SET_CATEGORIES = 'SET_CATEGORIES';

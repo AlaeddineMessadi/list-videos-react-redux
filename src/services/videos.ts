@@ -25,7 +25,7 @@ export const getVideos = (): Promise<ProcessedVideo[]> => {
 export const addVideo = async (video: Video, author: Author): Promise<Video> => {
   let updatedAuthor = author;
   updatedAuthor.videos.push(video);
-  let result = await updateAuthor(updatedAuthor);
+  await updateAuthor(updatedAuthor);
 
   return video;
 };
@@ -40,8 +40,7 @@ export const updateVideo = async (video: Video, author: Author): Promise<Video> 
   const videoIndex = updatedAuthor.videos.findIndex((vid) => vid.id == video.id);
   updatedAuthor.videos[videoIndex] = video;
 
-  let result = await updateAuthor(updatedAuthor);
-  console.log('result', result);
+  await updateAuthor(updatedAuthor);
 
   return video;
 };
@@ -58,7 +57,7 @@ export const removeVideo = async (video: ProcessedVideo): Promise<ProcessedVideo
 
   let updatedAuthor = author;
   updatedAuthor.videos.splice(videoIndex, 1);
-  let updatedAuthorResp = await updateAuthor(updatedAuthor);
+  await updateAuthor(updatedAuthor);
 
   return video;
 };

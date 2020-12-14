@@ -6,7 +6,7 @@ import { Dispatch } from 'redux';
 import * as _ from 'lodash';
 import moment from 'moment';
 
-import { Author, Category, FormErrors, Video, Format, ProcessedVideo } from '../common/interfaces';
+import { Author, Category, FormErrors, Video, ProcessedVideo } from '../common/interfaces';
 import { FormControlElm } from '../components/form-control';
 import { SelectInputElm } from '../components/select-input';
 import { MultipleSelector } from '../components/multiple-selector';

@@ -35,7 +35,7 @@ export const thunkLoadProcessedVideos = (): AppThunk => async (dispatch) => {
 
 export const thunkAddVideo = (video: Video, author: Author): AppThunk => async (dispatch, getState) => {
   let categories: Category[] = getState().categories;
-  let videoResp: Video = await addVideo(video, author);
+  await addVideo(video, author);
 
   let processedVideo: ProcessedVideo = convertToProcessedVideo(video, author, categories);
   dispatch(addVideoAction(processedVideo));

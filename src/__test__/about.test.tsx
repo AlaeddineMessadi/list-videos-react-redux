@@ -1,7 +1,6 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
 import { AboutPage } from '../pages/about';
-import { store } from '../store';
 // import { ReduxProvider } from './common';
 
 it('renders About page without crashing', () => {
