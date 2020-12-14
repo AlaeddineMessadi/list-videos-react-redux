@@ -60,7 +60,7 @@ export const thunkUpdateVideo = (video: Video, author: Author): AppThunk => asyn
 export const thunkDeleteVideo = (video: ProcessedVideo): AppThunk => async (dispatch, getState) => {
   let videoResp = await removeVideo(video);
 
-  let videos: ProcessedVideo[] = getState().videos.filter((vid) => vid.id != videoResp.id);
+  let videos: ProcessedVideo[] = getState().videos.filter((vid) => vid.id !== videoResp.id);
 
   dispatch(deleteVideoAction(videos));
 };

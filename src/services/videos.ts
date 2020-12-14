@@ -8,9 +8,8 @@ export const getVideos = (): Promise<ProcessedVideo[]> => {
     let videos: ProcessedVideo[] = [];
 
     authors.map((author) =>
-      author.videos.map((video) => {
+      author.videos.forEach((video) => {
         let single: ProcessedVideo = convertToProcessedVideo(video, author, categories);
-
         videos.push(single);
       })
     );
@@ -37,7 +36,7 @@ export const addVideo = async (video: Video, author: Author): Promise<Video> => 
 export const updateVideo = async (video: Video, author: Author): Promise<Video> => {
   let updatedAuthor = author;
 
-  const videoIndex = updatedAuthor.videos.findIndex((vid) => vid.id == video.id);
+  const videoIndex = updatedAuthor.videos.findIndex((vid) => vid.id === video.id);
   updatedAuthor.videos[videoIndex] = video;
 
   await updateAuthor(updatedAuthor);

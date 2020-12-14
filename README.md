@@ -17,13 +17,9 @@
 
 2. Run `yarn` or `npm install`
 
-## Run the project in dev
+## Run the project locally
 
 1. run `yarn dev`
-
-## start the project
-
-1. run `yarn start`
 
 ## Testing
 

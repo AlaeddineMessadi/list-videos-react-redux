@@ -23,15 +23,14 @@ const useStyles = makeStyles((theme) => ({
 interface BaseLayoutProps {}
 
 export const BaseLayout: React.FC<BaseLayoutProps> = () => {
-  const dispatch: Dispatch<any> = useDispatch();
-
   const classes = useStyles();
+  const dispatch: Dispatch<any> = useDispatch();
 
   useEffect(() => {
     dispatch(thunkLoadProcessedVideos());
     dispatch(thunkLoadCategories());
     dispatch(thunkLoadAuthors());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

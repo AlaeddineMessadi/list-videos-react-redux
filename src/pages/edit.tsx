@@ -109,7 +109,7 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
     const { options } = event.target as HTMLSelectElement;
     const value: Category[] = [];
 
-    Object.entries(options).map((element, i) => {
+    Object.entries(options).forEach((element, i) => {
       const option = element[1];
       if (option.selected) {
         const selectedId: number = parseInt(option.value);
