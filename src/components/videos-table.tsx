@@ -94,7 +94,13 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <DialogElm open={open} handleClose={handleClose} handleAcceptAndClose={handleAcceptAndClose} />
+      <DialogElm
+        open={open}
+        handleClose={handleClose}
+        handleAcceptAndClose={handleAcceptAndClose}
+        message={`Are you sure to delete ${video.name}?`}
+        title={`Delete video with ID ${video.id}`}
+      />
     </>
   );
 };
