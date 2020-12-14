@@ -72,6 +72,10 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
   const [author, setAuthor] = React.useState<Author>(selectedAuthor);
   const [categoryNames, setCategory] = React.useState<Category[]>(selectedCategories);
 
+  const hasNoChanges = () => {
+    return categoryNames === selectedCategories && author === selectedAuthor && videoName === video.name;
+  };
+
   /**
    * Form inputs errors Hooks initialization
    */
@@ -197,7 +201,13 @@ export const EditPage: React.FC<EditPageProps> = ({ match }) => {
         <Grid item xs={12} sm={8}>
           <FormControlElm>
             <div className={classes.btnContainer}>
-              <Button variant="contained" size="medium" color="primary" className={classes.btnMargin} onClick={() => onSubmit()}>
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                className={classes.btnMargin}
+                onClick={() => onSubmit()}
+                disabled={hasNoChanges()}>
                 Submit
               </Button>
               <Button variant="contained" size="medium" color="secondary" className={classes.btnMargin}>
