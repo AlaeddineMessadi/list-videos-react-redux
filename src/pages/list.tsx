@@ -35,7 +35,7 @@ export const ListPage: React.FC<ListPageProps> = () => {
   };
 
   const filterProcessedVideos = (videos: readonly ProcessedVideo[]) => {
-    return searchVal ? videos.filter((vid) => vid.name.search(searchVal.trim()) >= 0) : videos;
+    return searchVal ? videos.filter((vid) => vid.name.toLowerCase().search(searchVal.toLowerCase().trim()) >= 0) : videos;
   };
 
   const processedVideos: readonly ProcessedVideo[] = useSelector((state: AppState) => state.videos, shallowEqual);
