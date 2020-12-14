@@ -1,5 +1,3 @@
-![movingimage](./assets/00-mi-logo.png)
-
 # Movingimage24-videos
 
 ## Screenshot
@@ -37,7 +35,7 @@ Run `yarn test`
 > #### TODO
 >
 > - more tests.
-> - Style enhancement.
+> - Style enhancements.
 
 ## Built With
 
@@ -47,7 +45,7 @@ Run `yarn test`
 - [Material-UI](https://material-ui.com/) - React UI framework
 - [Jest](https://jestjs.io/) - Testing Framework
 - [Yarn](https://yarnpkg.com/) - Dependency Management
-- [Create-React-APp](https://reactjs.org/docs/create-a-new-react-app.html) - Boilerplate
+- [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) - Boilerplate
 
 ## License
 
