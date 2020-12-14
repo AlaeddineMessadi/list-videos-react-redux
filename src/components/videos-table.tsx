@@ -81,11 +81,16 @@ export const VideosTable: React.FC<VideosTableProps> = ({ videos }) => {
                   <TableCell>{video.date}</TableCell>
                   <TableCell>
                     <Link to={`/video/${video.id}`}>
-                      <Button size="small" color="primary" className={classes.margin}>
+                      <Button size="small" color="primary" variant="contained" className={classes.margin}>
                         Edit
                       </Button>
                     </Link>
-                    <Button size="small" color="secondary" className={classes.margin} onClick={() => removeVideoHandler(video)}>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      variant="contained"
+                      className={classes.margin}
+                      onClick={() => removeVideoHandler(video)}>
                       Remove
                     </Button>
                   </TableCell>
