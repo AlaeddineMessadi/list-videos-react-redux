@@ -6,7 +6,8 @@
     "start": "npx json-server --watch db.json -p 3001 & react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --write src/**/*.ts{,x}"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
@@ -62,6 +63,7 @@
     "@types/react-test-renderer": "^17.0.0",
     "@types/redux": "^3.6.0",
     "@types/redux-thunk": "^2.1.0",
+    "babel-eslint": "^10.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "msw": "^0.24.2",
