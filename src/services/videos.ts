@@ -1,7 +1,6 @@
 import { getCategories } from './categories';
 import { getAuthors, updateAuthor } from './authors';
 import { Author, ProcessedVideo, Video } from '../common/interfaces';
-import { result } from 'lodash';
 import { convertToProcessedVideo, findAuthorByName, findVideoById } from '../utils/helpers';
 
 export const getVideos = (): Promise<ProcessedVideo[]> => {

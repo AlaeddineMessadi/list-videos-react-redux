@@ -37,12 +37,12 @@ export const findAuthorByName: (authors: Author[], authorName: string) => Author
 };
 
 export const findVideoById: (videos: Video[], videoId: number) => Video = (videos, videoId): Video => {
-  const videoIndex = videos.findIndex((video) => video.id == videoId);
+  const videoIndex = videos.findIndex((video) => video.id === videoId);
   return videos[videoIndex];
 };
 
 export const findProcessedVideoById: (videos: ProcessedVideo[], videoId: number) => ProcessedVideo = (videos, videoId): ProcessedVideo => {
-  const videoIndex = videos.findIndex((video) => video.id == videoId);
+  const videoIndex = videos.findIndex((video) => video.id === videoId);
   return videos[videoIndex];
 };
 

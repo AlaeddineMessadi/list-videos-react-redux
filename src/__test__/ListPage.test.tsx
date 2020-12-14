@@ -23,14 +23,3 @@ it('renders list page', () => {
   // console.log(wrapper.debug());
   expect(wrapper.contains(welcome)).toEqual(true);
 });
-
-// test('...', () => {
-//   const wrapper = ({ children }) => <ReduxProvider reduxStore={store}>{children}</ReduxProvider>;
-//   const { result } = renderHook(
-//     () => {
-//       useSaveAuthenticationDataToStorages(useDispatch());
-//     },
-//     { wrapper }
-//   );
-//   // ... Rest of the logic
-// });
