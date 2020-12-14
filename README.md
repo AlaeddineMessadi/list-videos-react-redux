@@ -1,7 +1,9 @@
 # Movingimage24-videos
 
 ## Demo
+
 [DEMO LINK](https://movingimage24-videos.vercel.app/)
+
 ## Screenshot
 
 ![List](./assets/list.png)
@@ -11,6 +13,7 @@
 ## Prerequisites
 
 [npm](https://www.npmjs.com/get-npm) or [yarn](https://yarnpkg.com/en/docs/install) installed
+[Vercel](https://vercel.com) installed is optional, it's only for deployment
 
 ## Getting Started
 
@@ -27,6 +30,10 @@
 
 Run `yarn test`
 
+## Deploy
+
+Run `yarn deploy` OR `yarn deploy:prod` for production
+
 ### Notes
 
 - The backend can be accessed via http://localhost:3001
@@ -39,7 +46,6 @@ Run `yarn test`
 > - more tests.
 > - Style enhancements.
 > - more error handlings
->
 
 ## Built With
 
