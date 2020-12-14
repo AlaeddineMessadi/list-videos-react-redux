@@ -1,5 +1,7 @@
 # Movingimage24-videos
 
+## Demo
+[DEMO LINK](https://movingimage24-videos.vercel.app/)
 ## Screenshot
 
 ![List](./assets/list.png)
@@ -36,6 +38,8 @@ Run `yarn test`
 >
 > - more tests.
 > - Style enhancements.
+> - more error handlings
+>
 
 ## Built With
 
@@ -44,6 +48,7 @@ Run `yarn test`
 - [Redux-thunk](https://github.com/reduxjs/redux-thunk) - Thunk middleware for Redux
 - [Material-UI](https://material-ui.com/) - React UI framework
 - [Jest](https://jestjs.io/) - Testing Framework
+- [vercel](https://vercel.com/) - Deployment server
 - [Yarn](https://yarnpkg.com/) - Dependency Management
 - [Create-React-App](https://reactjs.org/docs/create-a-new-react-app.html) - Boilerplate
 
