@@ -4,8 +4,7 @@ import { Container, Grid } from '@material-ui/core';
 import { VideosTable } from '../components/videos-table';
 
 import { ProcessedVideo } from '../common/interfaces';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { Dispatch } from 'redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { AppState } from '../store/types';
 
 const useStyles = makeStyles((theme) => ({
