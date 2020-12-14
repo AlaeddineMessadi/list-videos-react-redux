@@ -19,48 +19,65 @@ import { convertToProcessedVideo } from '../utils/helpers';
 type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
 
 export const thunkLoadCategories = (): AppThunk => async (dispatch) => {
-  const categoriesResp = await getCategories();
-  dispatch(loadCategoriesAction(categoriesResp));
+  try {
+    const categoriesResp = await getCategories();
+    dispatch(loadCategoriesAction(categoriesResp));
+  } catch (error) {
+    console.error('load categories:', error);
+  }
 };
 
 export const thunkLoadAuthors = (): AppThunk => async (dispatch) => {
-  const authorsResp = await getAuthors();
-  dispatch(loadAuthorsAction(authorsResp));
+  try {
+    const authorsResp = await getAuthors();
+    dispatch(loadAuthorsAction(authorsResp));
+  } catch (error) {
+    console.error('load authors: ', error);
+  }
 };
 
 export const thunkLoadProcessedVideos = (): AppThunk => async (dispatch) => {
-  const videosResp = await getVideos();
-  dispatch(loadProcessedVideosAction(videosResp));
+  try {
+    const videosResp = await getVideos();
+    dispatch(loadProcessedVideosAction(videosResp));
+  } catch (error) {
+    console.error('load videos: ', error);
+  }
 };
 
 export const thunkAddVideo = (video: Video, author: Author): AppThunk => async (dispatch, getState) => {
-  let categories: Category[] = getState().categories;
-  await addVideo(video, author);
+  try {
+    let categories: Category[] = getState().categories;
+    await addVideo(video, author);
 
-  let processedVideo: ProcessedVideo = convertToProcessedVideo(video, author, categories);
-  dispatch(addVideoAction(processedVideo));
+    let processedVideo: ProcessedVideo = convertToProcessedVideo(video, author, categories);
+    dispatch(addVideoAction(processedVideo));
+  } catch (error) {
+    console.error('add video: ', error);
+  }
 };
 
 export const thunkUpdateVideo = (video: Video, author: Author): AppThunk => async (dispatch, getState) => {
   let categories: Category[] = getState().categories;
   let videos: ProcessedVideo[] = getState().videos;
-  let videoResp: Video = await updateVideo(video, author);
-
-  console.log('non updated', videos);
-  // new array with updated video
-  let processedVideo: ProcessedVideo = convertToProcessedVideo(videoResp, author, categories);
-  const videoIndex = videos.findIndex((vid) => vid.id === video.id);
-  videos[videoIndex] = processedVideo;
-
-  console.log(' updated', videos);
-
-  dispatch(updateVideoAction(videos));
+  try {
+    let videoResp: Video = await updateVideo(video, author);
+    let processedVideo: ProcessedVideo = convertToProcessedVideo(videoResp, author, categories);
+    const videoIndex = videos.findIndex((vid) => vid.id === video.id);
+    videos[videoIndex] = processedVideo;
+    dispatch(updateVideoAction(videos));
+  } catch (error) {
+    console.error('update video: ', error);
+  }
 };
 
 export const thunkDeleteVideo = (video: ProcessedVideo): AppThunk => async (dispatch, getState) => {
-  let videoResp = await removeVideo(video);
+  try {
+    let videoResp = await removeVideo(video);
+    let videos: ProcessedVideo[] = getState().videos.filter((vid) => vid.id !== videoResp.id);
 
-  let videos: ProcessedVideo[] = getState().videos.filter((vid) => vid.id !== videoResp.id);
-
-  dispatch(deleteVideoAction(videos));
+    dispatch(deleteVideoAction(videos));
+  } catch (error) {
+    console.error('delete video: ', error);
+  }
 };
