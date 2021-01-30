@@ -1,4 +1,4 @@
-# Movingimage24-videos
+# Videos List React Redux
 
 ## Demo
 
